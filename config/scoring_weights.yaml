@@ -1,0 +1,29 @@
+# Prioritizer scoring weights — each factor contributes to the overall lead score.
+# Values are 0.0 to 1.0. The final score is a weighted average normalized to [0, 1].
+
+funding_stage:
+  pre_seed: 0.4
+  seed: 0.6
+  series_a: 1.0
+  series_b: 0.9
+  series_c_plus: 0.4
+  unknown: 0.3
+
+team_size:
+  "1-10": 0.3
+  "11-50": 1.0
+  "51-200": 0.7
+  "200+": 0.2
+
+max_finding_severity:
+  critical: 1.0
+  high: 0.8
+  medium: 0.5
+  low: 0.2
+  none: 0.0
+
+# Bonus signals (additive)
+has_primary_contact_email: 0.3
+tech_stack_indicates_saas: 0.2
+recently_funded_days: 90  # leads funded within this many days get a boost
+recently_funded_bonus: 0.2

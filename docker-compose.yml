@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: SharpQA-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
+    restart: unless-stopped
+
+  agent-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: SharpQA-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - SQLITE_DB_PATH=data/SharpQA.db
+      - CHROMA_PERSIST_DIR=data/chroma
+      - LOG_DIR=data/logs
+      - SCREENSHOTS_DIR=data/screenshots
+      - EXPORTS_DIR=data/exports
+      - PLAYWRIGHT_HEADLESS=true
+    depends_on:
+      - ollama
+    command: >
+      sh -c "uv run python -m sharpqa_agent.main init &&
+             uv run uvicorn sharpqa_agent.orchestrator.api:app --host 0.0.0.0 --port 8000"
+    restart: unless-stopped
+
+  agent-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: SharpQA-ui
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    environment:
+      - API_PORT=8000
+    depends_on:
+      - agent-backend
+    command: >
+      uv run streamlit run src/sharpqa_agent/dashboard/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

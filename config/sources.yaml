@@ -1,0 +1,28 @@
+# Lead source configuration — enable/disable and configure each sourcer
+
+sources:
+  yc:
+    enabled: true
+    daily_limit: 50
+    min_batch: "W24"  # YC batch identifier to start from
+    rate_limit_seconds: 3
+
+  wellfound:
+    enabled: true
+    daily_limit: 30
+    rate_limit_seconds: 5
+    max_retries: 3
+
+  producthunt:
+    enabled: true
+    daily_limit: 50
+    min_upvotes: 50
+
+  github:
+    enabled: false  # requires personal token
+    daily_limit: 50
+    min_stars: 100
+    topics:
+      - saas
+      - startup
+      - webapp
