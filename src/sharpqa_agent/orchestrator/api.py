@@ -24,6 +24,7 @@ from sharpqa_agent.core.database import (
     get_leads,
     get_pipeline_runs,
     get_tech_stack_for_lead,
+    initialize_database,
     search_leads_fts,
     update_draft_status,
 )
@@ -41,6 +42,7 @@ async def lifespan(application: FastAPI):
     """Application lifespan handler — setup and teardown."""
     setup_logging(settings.log_dir)
     settings.ensure_directories()
+    initialize_database(settings.sqlite_db_path)
     setup_nightly_sourcing(settings)
     logger.info("api_started", port=settings.api_port)
     yield
