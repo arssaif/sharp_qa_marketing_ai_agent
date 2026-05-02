@@ -21,10 +21,16 @@ class Settings(BaseSettings):
     screenshots_dir: str = "data/screenshots"
     exports_dir: str = "data/exports"
 
-    # Ollama / LLM
+    # LLM Provider Configuration
+    llm_provider: str = "ollama"  # 'ollama' or 'gemini'
+
+    # Ollama settings
     ollama_base_url: str = "http://localhost:11434"
     ollama_model_name: str = "llama3.1:8b-instruct-q4_K_M"
     ollama_timeout_seconds: int = 120
+
+    # Gemini settings
+    gemini_api_key: str = ""
 
     # Embeddings
     embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"

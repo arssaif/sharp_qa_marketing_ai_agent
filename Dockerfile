@@ -45,5 +45,5 @@ RUN mkdir -p data/logs data/chroma data/exports data/screenshots
 
 EXPOSE 8000 8501
 
-# Default: start both API and dashboard
-CMD ["sh", "-c", "uv run uvicorn sharpqa_agent.orchestrator.api:app --host 0.0.0.0 --port 8000 & uv run streamlit run src/sharpqa_agent/dashboard/app.py --server.port 8501 --server.address 0.0.0.0"]
+# Default: start both API and dashboard. For Cloud Run, Streamlit binds to PORT.
+CMD ["sh", "-c", "uv run uvicorn sharpqa_agent.orchestrator.api:app --host 0.0.0.0 --port 8000 & uv run streamlit run src/sharpqa_agent/dashboard/app.py --server.port ${PORT:-8501} --server.address 0.0.0.0"]

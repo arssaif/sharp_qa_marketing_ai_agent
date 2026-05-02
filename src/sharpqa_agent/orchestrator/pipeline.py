@@ -20,7 +20,6 @@ from sharpqa_agent.core.database import (
     update_lead_status,
     update_pipeline_run,
 )
-from sharpqa_agent.core.llm_client import OllamaClient
 from sharpqa_agent.core.logging_setup import get_logger
 from sharpqa_agent.core.models import Lead, PipelineRun, RunStatus
 from sharpqa_agent.orchestrator.task_state import add_log, create_run, update_run
@@ -271,12 +270,9 @@ async def _run_draft_stage(db_path: str, limit: int, settings, run_id: str) -> i
     """Generate email drafts for high-priority analyzed leads."""
     from sharpqa_agent.drafter.email_drafter import EmailDrafter
     from sharpqa_agent.drafter.rag_retriever import RagRetriever
+    from sharpqa_agent.core.llm_client import get_llm_client
 
-    llm = OllamaClient(
-        base_url=settings.ollama_base_url,
-        model=settings.ollama_model_name,
-        timeout=settings.ollama_timeout_seconds,
-    )
+    llm = get_llm_client(settings)
 
     rag = RagRetriever(persist_dir=settings.chroma_persist_dir)
     rag.ensure_templates_seeded()

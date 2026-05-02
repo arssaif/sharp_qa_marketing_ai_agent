@@ -7,7 +7,7 @@ import json
 import re
 
 from sharpqa_agent.core.exceptions import DrafterError
-from sharpqa_agent.core.llm_client import OllamaClient
+from sharpqa_agent.core.llm_client import BaseLLMClient
 from sharpqa_agent.core.logging_setup import get_logger
 from sharpqa_agent.core.models import (
     Contact,
@@ -28,12 +28,12 @@ class EmailDrafter:
     """Generate personalized cold outreach emails using LLM with RAG context.
 
     Retrieves similar templates, builds a prompt with lead context,
-    and generates email drafts via the local Ollama LLM.
+    and generates email drafts via the configured LLM.
     """
 
     def __init__(
         self,
-        llm_client: OllamaClient,
+        llm_client: BaseLLMClient,
         rag_retriever: RagRetriever,
         operator_name: str = "Arslan",
         operator_company: str = "SharpQA",

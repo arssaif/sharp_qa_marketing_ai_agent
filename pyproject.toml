@@ -21,6 +21,7 @@ dependencies = [
     "chromadb>=0.4",
     "sentence-transformers>=2.2",
     "onnxruntime>=1.17,<1.24",
+    "google-genai>=0.1.1",
     # API & dashboard
     "fastapi>=0.110",
     "uvicorn[standard]>=0.27",
