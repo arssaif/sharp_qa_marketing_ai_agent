@@ -101,11 +101,15 @@ def serve() -> None:
 
     console.print("[bold blue]Starting SharpQA Agent...[/bold blue]")
 
+    project_root = Path(__file__).parent.parent.parent
+    src_dir = Path(__file__).parent.parent
+
     # Start FastAPI in background
     api_process = subprocess.Popen(
         [sys.executable, "-m", "uvicorn", "sharpqa_agent.orchestrator.api:app",
-         "--host", "127.0.0.1", "--port", str(settings.api_port)],
-        cwd=str(Path(__file__).parent.parent),
+         "--host", "127.0.0.1", "--port", str(settings.api_port),
+         "--app-dir", str(src_dir)],
+        cwd=str(project_root),
     )
 
     console.print(f"  API server: http://127.0.0.1:{settings.api_port}")

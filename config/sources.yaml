@@ -1,14 +1,18 @@
 # Lead source configuration — enable/disable and configure each sourcer
 
 sources:
-  yc:
+  demo:
     enabled: true
+    daily_limit: 10
+
+  yc:
+    enabled: false
     daily_limit: 50
     min_batch: "W24"  # YC batch identifier to start from
     rate_limit_seconds: 3
 
   wellfound:
-    enabled: true
+    enabled: false
     daily_limit: 30
     rate_limit_seconds: 5
     max_retries: 3

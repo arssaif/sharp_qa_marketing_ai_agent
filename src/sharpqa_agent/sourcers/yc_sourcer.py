@@ -60,7 +60,7 @@ class YCSourcer(BaseSourcer):
                 # Load the companies page with filters for recently funded
                 url = f"{YC_COMPANIES_URL}?batch=W24&batch=S24&batch=W25&batch=S25"
                 logger.info("yc_sourcer_fetching", url=url)
-                await page.goto(url, wait_until="networkidle", timeout=30000)
+                await page.goto(url, wait_until="domcontentloaded", timeout=30000)
 
                 # Scroll to load more results
                 for _ in range(3):

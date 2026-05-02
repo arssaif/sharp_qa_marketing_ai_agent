@@ -119,7 +119,8 @@ st.divider()
 st.subheader("Current Configuration")
 st.json({
     "sqlite_db_path": settings.sqlite_db_path,
-    "ollama_model": settings.ollama_model_name,
+    "llm_provider": settings.llm_provider,
+    "ollama_model": settings.ollama_model_name if settings.llm_provider == "ollama" else "N/A",
     "embedding_model": settings.embedding_model_name,
     "operator_name": settings.operator_name,
     "operator_company": settings.operator_company,

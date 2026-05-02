@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import logging.handlers
 import sys
 from pathlib import Path
 
@@ -58,9 +59,9 @@ def setup_logging(log_dir: str | Path = "data/logs", log_level: str = "INFO") ->
         cache_logger_on_first_use=True,
     )
 
-    # Formatter for file handler (JSON)
+    # Formatter for file handler (human-readable text)
     file_formatter = structlog.stdlib.ProcessorFormatter(
-        processor=structlog.processors.JSONRenderer(),
+        processor=structlog.dev.ConsoleRenderer(colors=False),
     )
     file_handler.setFormatter(file_formatter)
 

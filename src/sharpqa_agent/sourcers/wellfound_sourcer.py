@@ -64,7 +64,7 @@ class WellfoundSourcer(BaseSourcer):
                     page = await context.new_page()
 
                     logger.info("wellfound_sourcer_fetching", url=WELLFOUND_URL, attempt=attempt + 1)
-                    response = await page.goto(WELLFOUND_URL, wait_until="networkidle", timeout=30000)
+                    response = await page.goto(WELLFOUND_URL, wait_until="domcontentloaded", timeout=30000)
 
                     if response and response.status == 403:
                         logger.warning("wellfound_cloudflare_block", attempt=attempt + 1)

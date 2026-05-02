@@ -8,6 +8,7 @@ import yaml
 
 from sharpqa_agent.core.logging_setup import get_logger
 from sharpqa_agent.sourcers.base_sourcer import BaseSourcer
+from sharpqa_agent.sourcers.demo_sourcer import DemoSourcer
 from sharpqa_agent.sourcers.github_sourcer import GitHubSourcer
 from sharpqa_agent.sourcers.producthunt_sourcer import ProductHuntSourcer
 from sharpqa_agent.sourcers.wellfound_sourcer import WellfoundSourcer
@@ -54,6 +55,9 @@ def get_enabled_sourcers(
     config = load_sources_config(config_path)
     sources = config.get("sources", {})
     sourcers: list[BaseSourcer] = []
+
+    if sources.get("demo", {}).get("enabled", False):
+        sourcers.append(DemoSourcer())
 
     if sources.get("yc", {}).get("enabled", False):
         yc_config = sources["yc"]
